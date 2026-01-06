@@ -47,6 +47,16 @@ class PostCreate(BaseModel):
         if "spam" in value.lower():
             raise ValueError("El título no puede contener la palabra: 'spam'")
         return value
+    
+    #Ejemplo con for para una lista. 
+    @field_validator("tags")
+    @classmethod
+    def validate_tags(cls, value: List[Tag]) -> List[Tag]:
+        # value es una lista: [Tag(name="python"), Tag(name="fastapi")]
+        for tag in value:  # ← Ciclo for sobre cada Tag en la lista
+            if "spam" in tag.name.lower():
+                raise ValueError(f"El tag '{tag.name}' no puede contener la palabra 'spam'")
+        return value  # Retorna la lista completa validada
 
 class PostUpdate(BaseModel):
     title: str
